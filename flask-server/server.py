@@ -2,9 +2,9 @@ from flask import Flask
 
 app = Flask(__name__)
 
-@app.route("/members")
+@app.route("/")
 def members():
-  return {"members": ["hi", "h2", "h3"]}
+  return "3212"
 
 if __name__ == "__main__":
   app.run(debug=True)
