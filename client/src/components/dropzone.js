@@ -2,6 +2,7 @@ import React, {useCallback, useState} from 'react';
 import {useDropzone} from 'react-dropzone';
 import DocumentImg from '../components/document.svg';
 import DownArrow from '../components/down-arrow.svg';
+import Csv from '../components/csv.svg';
 
 const Dropzone = ({className}) => {
   const [files, setFiles] = useState([]);
@@ -55,17 +56,20 @@ const Dropzone = ({className}) => {
         </div>
       </form>
       <div style={{width: "93%"}}>
-        <ul className='acceptedFiles'>
+        <div className='acceptedFiles'>
         {files.map(file => {
           return (
-          <li key={file.name}>
-            {file.name}
-            <button type='button' onClick={() => removeFile(file.name)}>X</button>
-          </li>
+          <div className='file' key={file.name}>
+            <img src={Csv} alt='csv-icon' className='csvIcon'/>
+            <div className='fileAttributes'>
+              <span className='fileName'>{file.name}</span>
+              <button type='button' className='deleteFileBtn' onClick={() => removeFile(file.name)}>X</button>
+            </div>
+          </div>
           )
         })}
-      </ul>
       </div>
+    </div>
     <ul className='mt-6 flex flex-col'>
             {rejected.length > 0 && (
       <div>

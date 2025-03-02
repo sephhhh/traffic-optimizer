@@ -1,12 +1,13 @@
 // ./pages/inputFilePage.js
-import React from 'react';
+import React from 'react'
+import Dropzone from '../components/dropzone'
 
 const InputFilePage = () => {
   return (
     <div>
-      <h1>Welcome to inputting files Page</h1>
+      < Dropzone className={'box'}/>
     </div>
-  );
-};
+  ) 
+}
 
 export default InputFilePage;
