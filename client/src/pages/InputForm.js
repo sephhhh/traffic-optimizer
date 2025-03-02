@@ -71,16 +71,23 @@ const resetData = (setSubmittedData) => {
 
 // Function to reset only the last added entry
 const resetLastEntry = (setSubmittedData) => {
-  setSubmittedData((prev) => prev.slice(0, -1)); // Remove last item from array
+  //prev.slice() --> creates a new array and sticks it back into submittedData
+  //(0, -1) --> so you essentially remove the last entry
+  setSubmittedData((prev) => prev.slice(0, -1));
 };
 
-// Function to generate and download CSV
-const downloadCSV = (submittedData, headers) => {
+// Function to format and download CSV
+const downloadCSV = (submittedData, headers) => { //headers basically the input fields
+  //makes sure submittedData isn't empty
   if (submittedData.length === 0) return alert("No data to download!");
 
   const csvRows = [
-    headers.join(","), // Add header row
-    ...submittedData.map((row) => Object.values(row).join(",")), // Add all data rows
+    // add row for input fields 
+    headers.join(","),
+    //... --> puts data into it's own line
+    //.map() --> creates new array based on it's parameter
+    //(row) => Object.values(row).join(",") --> funtion that loops array and creates csv format
+    ...submittedData.map((row) => Object.values(row).join(",")),
   ];
 
   const blob = new Blob([csvRows.join("\n")], { type: "text/csv" });
@@ -144,20 +151,29 @@ function InputForm() {
 
   return (
     <div>
+    <div>
+      
       <TrafficForm formData={formData} setFormData={setFormData} setSubmittedData={setSubmittedData} />
       
+    </div>
       {/* Action Buttons */}
-      <button onClick={() => downloadCSV(submittedData, headers)}>Download CSV</button>
-      <button onClick={() => resetData(setSubmittedData)} style={{ marginLeft: "10px", background: "red", color: "white" }}>
-        Reset All
-      </button>
-      <button onClick={() => resetLastEntry(setSubmittedData)} style={{ marginLeft: "10px", background: "orange", color: "white" }}>
-        Reset Last Entry
-      </button>
-
+      <div>
+        <div>
+          <button onClick={() => downloadCSV(submittedData, headers)}>Download CSV</button>
+          <button onClick={() => resetData(setSubmittedData)} style={{ marginLeft: "10px", background: "red", color: "white" }}>
+            Reset All
+          </button>
+          <button onClick={() => resetLastEntry(setSubmittedData)} style={{ marginLeft: "10px", background: "orange", color: "white" }}>
+            Reset Last Entry
+          </button>
+        </div>
+      </div>
       {/* Submitted Data Table */}
-      <h3>Current CSV Data Table:</h3>
-      <SubmittedTable submittedData={submittedData} headers={headers} />
+      <div>
+        <h3>Current CSV Data Table:</h3>
+        <SubmittedTable submittedData={submittedData} headers={headers} />
+      </div>
+
     </div>
   );
 }
