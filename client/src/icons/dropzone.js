@@ -1,10 +1,10 @@
 import React, {useCallback, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import {useDropzone} from 'react-dropzone';
-import DocumentImg from '../icons/document.svg';
-import DownArrow from '../icons/down-arrow.svg';
-import Csv from '../icons/csv.svg';
-import Back from '../icons/back.svg';
+import DocumentImg from '../components/document.svg';
+import DownArrow from '../components/down-arrow.svg';
+import Csv from '../components/csv.svg';
+import Back from '../components/back.svg';
 
 const Dropzone = ({className}) => {
   const [files, setFiles] = useState([]);
