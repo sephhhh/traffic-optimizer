@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
+import { useNavigate } from 'react-router-dom';
 
 // Define the form fields in a single object for easy expansion
 const initialFormState = {
@@ -100,19 +101,31 @@ const downloadCSV = (submittedData, headers) => { //headers basically the input 
 };
 
 // Reusable Form Component
-const TrafficForm = ({ formData, setFormData, setSubmittedData }) => {
+const TrafficForm = ({ formData, setFormData, setSubmittedData, formRef }) => {
   return (
-    <form onSubmit={(e) => handleSubmit(e, formData, setSubmittedData, () => resetForm(setFormData))}>
-      {Object.keys(formData).map((key) => (
-        <input
-          key={key}
-          name={key}
-          value={formData[key]}
-          onChange={(e) => handleChange(e, setFormData)}
-          placeholder={key.replace(/([A-Z])/g, " $1").trim()}
-        />
-      ))}
-      <button type="submit">Submit</button>
+    <form 
+      className="flex flex-col gap-4 p-4 bg-white shadow-md rounded-lg"
+      //allows button to submit form
+      ref = {formRef} 
+      onSubmit={(e) => handleSubmit(e, formData, setSubmittedData, () => resetForm(setFormData))}>
+      <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-4 bg-white">
+        {Object.keys(formData).map((key) => (
+          <div key={key} className="flex flex-col bg-white">
+            <label className="font-medium mb-1 bg-white">
+              {key.replace(/([A-Z])/g, " $1").trim()}
+            </label>
+            <input
+              key={key}
+              name={key}
+              value={formData[key]}
+              onChange={(e) => handleChange(e, setFormData)}
+              placeholder={key.replace(/([A-Z])/g, " $1").trim()}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+        ))}
+      </div>
+      
     </form>
   );
 };
@@ -120,26 +133,26 @@ const TrafficForm = ({ formData, setFormData, setSubmittedData }) => {
 // Reusable Table Component
 const SubmittedTable = ({ submittedData, headers }) => {
   return submittedData.length > 0 ? (
-    <table border="1" style={{ marginTop: "10px", width: "100%", textAlign: "left" }}>
+    <table>
       <thead>
         <tr>
           {headers.map((header) => (
-            <th key={header}>{header}</th>
+            <th key={header} className="bg-white">{header}</th>
           ))}
         </tr>
       </thead>
-      <tbody>
+      <tbody className = "border border-black">
         {submittedData.map((data, index) => (
-          <tr key={index}>
+          <tr key={index} className = "border border-black">
             {Object.values(data).map((value, i) => (
-              <td key={i}>{value}</td>
+              <td key={i} className = "border border-black">{value}</td>
             ))}
           </tr>
         ))}
       </tbody>
     </table>
   ) : (
-    <p>No data submitted yet.</p>
+    <p className = "bg-white">No data submitted yet.</p>
   );
 };
 
@@ -148,32 +161,69 @@ function InputForm() {
   const [formData, setFormData] = useState({ ...initialFormState });
   const [submittedData, setSubmittedData] = useState([]);
   const headers = Object.keys(initialFormState).map((key) => key.replace(/([A-Z])/g, " $1").trim());
+  //reference to form
+  const formRef = useRef(null);
 
+  const navigate = useNavigate();
+  
+  const handleBack = () => {
+    navigate('/home');
+  };
+    
   return (
-    <div>
-    <div>
-      
-      <TrafficForm formData={formData} setFormData={setFormData} setSubmittedData={setSubmittedData} />
-      
-    </div>
-      {/* Action Buttons */}
+    <div className="flex flex-col justify-left gap-6 p-6 min-h-screen bg-white">
+      <div className="bg-white">
+        <button onClick={handleBack}> Go Home </button>
+      </div>
       <div>
+        <h1 className="text-lg font-semibold text-black bg-white">Create your csv file</h1>
+      </div>
+      <div className="flex flex-row">
+        {/* Form Section */}
         <div>
-          <button onClick={() => downloadCSV(submittedData, headers)}>Download CSV</button>
-          <button onClick={() => resetData(setSubmittedData)} style={{ marginLeft: "10px", background: "red", color: "white" }}>
+          <TrafficForm
+            formData={formData}
+            setFormData={setFormData}
+            setSubmittedData={setSubmittedData}
+            formRef={formRef}
+          />
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex flex-col justify-center gap-4 pl-8 bg-white">
+          <button
+            onClick={() => formRef.current.requestSubmit()} //Manually triggers form submission
+            className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition"
+          >
+            Submit
+          </button>
+          <button
+            onClick={() => resetLastEntry(setSubmittedData)}
+            className="px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600 transition"
+          >
+            Reset Last Entry
+          </button>
+          <button
+            onClick={() => resetData(setSubmittedData)}
+            className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition"
+          >
             Reset All
           </button>
-          <button onClick={() => resetLastEntry(setSubmittedData)} style={{ marginLeft: "10px", background: "orange", color: "white" }}>
-            Reset Last Entry
+          <button
+            onClick={() => downloadCSV(submittedData, headers)}
+            className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition"
+          >
+            Download CSV
           </button>
         </div>
       </div>
+
       {/* Submitted Data Table */}
       <div>
-        <h3>Current CSV Data Table:</h3>
+        <h3 className="text-lg font-semibold text-black bg-white">Current CSV Data Table:</h3>
         <SubmittedTable submittedData={submittedData} headers={headers} />
       </div>
-
+      
     </div>
   );
 }
