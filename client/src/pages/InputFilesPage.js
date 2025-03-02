@@ -1,6 +1,6 @@
 // ./pages/inputFilePage.js
 import React from 'react'
-import Dropzone from '../components/dropzone';
+import Dropzone from './dropzone';
 import '../style-sheets/inputFilesPagesStyle.css';
 
 const InputFilePage = () => {

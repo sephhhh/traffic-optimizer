@@ -1,8 +1,10 @@
 // ./pages/Home.js
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { animated_modal } from '../components/ui/animated-modal';
-
+import Road from '../components/road';
+import Card from '../components/card';
+import TrafficLight from '../components/traffic_light';
+import Loader from '../components/truck';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -16,13 +18,20 @@ const Home = () => {
   }
 
   return (
-    <div>
-      < animated_modal />
-      <h1 style={{textAlign: "center"}}>Traffic Optimizer</h1>
-      <button class="text-blue-500" onClick={handleCSV}>go to input page</button>
-      <button onClick={handleFormInput}>go to input form</button>
+    <div className='flex flex-col h-screen'>
+      <div className='flex justify-center items-center h-[80%] gap-[50px]'>
+        <Road />
+      </div>
     </div>
+    
+
   );
 };
 
 export default Home;
+
+
+/*
+      <div className='flex-1 flex-col flex justify-center items-center h-[100%]'>
+        <Road />
+      </div>*/

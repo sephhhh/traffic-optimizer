@@ -167,7 +167,7 @@ function InputForm() {
   const navigate = useNavigate();
   
   const handleBack = () => {
-    navigate('/home');
+    navigate('/');
   };
     
   return (
