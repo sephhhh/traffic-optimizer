@@ -18,8 +18,9 @@ const Home = () => {
   }
 
   return (
-    <div className='flex flex-col h-screen'>
-      <div className='flex justify-center items-center h-[80%] gap-[50px]'>
+    <div className='flex flex-col h-screen justify-center'>
+      <div className='text-[70px] text-center '>Traffic Optimizer</div>
+      <div className='flex justify-center items-center gap-[50px]'>
         <Road />
       </div>
     </div>
