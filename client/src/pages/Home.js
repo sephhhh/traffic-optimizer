@@ -15,7 +15,7 @@ const Home = () => {
 
   return (
     <div>
-      <h1>Welcome to Home Page</h1>
+      <h1 style={{textAlign: "center"}}>Traffic Optimizer</h1>
       <button onClick={handleCSV}>go to input page</button>
       <button onClick={handleFormInput}>go to input form</button>
     </div>

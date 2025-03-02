@@ -1,0 +1,10 @@
+@font-face {
+  font-family: roboto;
+  src: url(../fonts/DMSerifText-Regular.ttf);
+}
+
+* {
+  background-color: rgb(251, 251, 251);
+  font-family: roboto;
+}
+

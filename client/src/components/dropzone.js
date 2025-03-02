@@ -1,12 +1,23 @@
 import React, {useCallback, useState} from 'react';
+import { useNavigate } from 'react-router-dom';
 import {useDropzone} from 'react-dropzone';
 import DocumentImg from '../components/document.svg';
 import DownArrow from '../components/down-arrow.svg';
 import Csv from '../components/csv.svg';
+import Back from '../components/back.svg';
 
 const Dropzone = ({className}) => {
   const [files, setFiles] = useState([]);
   const [rejected, setRejected] = useState([]);
+  const navigate = useNavigate();
+
+  const backBtnAction = () => {
+    navigate('/');
+  }
+
+  const handleFormInput = () => {
+    navigate('/inputForm');
+  }
 
   const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
     
@@ -36,6 +47,11 @@ const Dropzone = ({className}) => {
 
   return (
     <div className='custom-file-box'>
+      <div className='header'>
+        <button className='backBtn' onClick={backBtnAction}> <img src={Back} id='backImg'/> </button>
+        <div className='headerText'>Import your CSV Files</div>
+        <button id='processBtn'>Process</button>
+      </div>
       <form className='custom-file-label'>
         <div className='box' {...getRootProps({
           className: className
@@ -55,6 +71,11 @@ const Dropzone = ({className}) => {
           )}
         </div>
       </form>
+
+      <div className='noCsvDiv'>
+        <button id='noCsvDivBtn' onClick={handleFormInput}>Don't have a CSV file?</button>
+      </div>
+
       <div style={{width: "93%"}}>
         <div className='acceptedFiles'>
         {files.map(file => {
@@ -70,7 +91,7 @@ const Dropzone = ({className}) => {
         })}
       </div>
     </div>
-    <ul className='mt-6 flex flex-col'>
+    <ul style={{display: "none"}}>
             {rejected.length > 0 && (
       <div>
         <p>Last rejected file: {rejected[rejected.length - 1].file.name}</p>
