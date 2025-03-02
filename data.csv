@@ -1,0 +1,29 @@
+object_type,id,data1,data2,data3,data4,data5
+Road,roadn1,N,50,0.7,0.2,0.0,0.1
+Road,roade1,E,50,0.2,0.7,0.1,0.0
+Road,roads2,S,50,0.0,0.1,0.7,0.2
+Road,roadw2,W,50,0.1,0.0,0.2,0.7
+Road,roadn2,N,50,0.7,0.2,0.0,0.1
+Road,roade2,E,50,0.2,0.7,0.1,0.0
+Road,roads1,S,50,0.0,0.1,0.7,0.2
+Road,roadw1,W,50,0.1,0.0,0.2,0.7
+Road,roadn3,N,50,0.7,0.2,0.0,0.1
+Road,roade4,E,50,0.2,0.7,0.1,0.0
+Road,roads3,S,50,0.0,0.1,0.7,0.2
+Road,roadw5,W,50,0.1,0.0,0.2,0.7
+Road,roadw4,W,50,0.1,0.0,0.2,0.7
+Road,roade5,E,50,0.2,0.7,0.1,0.0
+Road,roadn4,N,50,0.7,0.2,0.0,0.1
+Road,roads5,S,50,0.0,0.1,0.7,0.2
+Road,roadw3,W,50,0.1,0.0,0.2,0.7
+Road,roadn5,N,50,0.7,0.2,0.0,0.1
+Road,roade3,E,50,0.2,0.7,0.1,0.0
+Road,roads4,S,50,0.0,0.1,0.7,0.2
+Road,roads6,S,50,0.0,0.1,0.7,0.2
+Road,roadw6,W,50,0.1,0.0,0.2,0.7
+Road,roadn6,N,50,0.7,0.1,0.0,0.2
+Road,roade6,E,50,0.2,0.7,0.1,0.0
+Intersection,inter_a,7AM,roadn1,roade1,roads2,roadw2,roadn2,roade2,roads1,roadw1,"[[[[0, 0], 25], [[0, 3], 5], [[2, 2], 25], [[2, 1], 5]], [[[1, 1], 25], [[1, 0], 5], [[3, 3], 25], [[3, 2], 5]]]"
+Intersection,inter_b,7AM,roadn2,roade4,roads3,roadw5,roadn3,roade5,roads2,roadw4,"[[[[0, 0], 25], [[0, 3], 5], [[2, 2], 25], [[2, 1], 5]], [[[1, 1], 25], [[1, 0], 5], [[3, 3], 25], [[3, 2], 5]]]"
+Intersection,inter_c,7AM,roadn4,roade2,roads5,roadw3,roadn5,roade3,roads4,roadw2,"[[[[1, 1], 25], [[1, 0], 5], [[3, 3], 25], [[3, 2], 5]], [[[0, 0], 25], [[0, 3], 5], [[2, 2], 25], [[2, 1], 5]]]"
+Intersection,inter_d,7AM,roadn5,roade5,roads6,roadw6,roadn6,roade6,roads5,roadw5,"[[[[1, 1], 25], [[1, 0], 5], [[3, 3], 25], [[3, 2], 5]], [[[0, 0], 25], [[0, 3], 5], [[2, 2], 25], [[2, 1], 5]]]"

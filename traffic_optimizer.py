@@ -4,6 +4,8 @@ import numpy as np
 from skopt import gp_minimize
 from skopt.space import Integer
 from skopt.utils import use_named_args
+import csv
+import ast
 
 class Road:
     def __init__(self, direction, road_id, max_capacity, edge_data):
@@ -295,6 +297,7 @@ def convert_to_cdf(weight_list):
     return new_list
 
 def objective_function(durations):
+    penalty_score = 0
 
     for i in range(1, len(durations), 2):  
         if durations[i] >= durations[i - 1]:  
@@ -333,6 +336,33 @@ def objective_function(durations):
     avg_congestion = total_congestion / total_roads
 
     return -avg_congestion
+
+def load_traffic_data(filename):
+    roads = {}
+    intersections = {}
+    with open(filename, "r") as csvfile:
+        reader = csv.reader(csvfile)
+        next(reader)  
+        for row in reader:
+            object_type = row[0]
+            road_id = row[1]
+            if object_type == "Road":
+                direction = row[2]
+                max_capacity = int(row[3])
+                edge_data = [float(x) for x in row[4:]]
+                roads[road_id] = Road(direction, road_id, max_capacity, edge_data)
+            elif object_type == "Intersection":
+                time_of_day = row[2]
+                input_road_ids = row[3:7]
+                output_road_ids = row[7:11]
+                traffic_light = ast.literal_eval(row[11])
+                input_roads = [roads[id] for id in input_road_ids]
+                output_roads = [roads[id] for id in output_road_ids]
+                intersections[road_id] = Intersection(time_of_day, road_id, input_roads, output_roads, traffic_light)
+    return intersections.values()
+
+#load csv file
+intersection_list = list(load_traffic_data("data.csv"))
 
 sample_durations = [25 if i % 2 == 0 else 5 for i in range(32)]
 cycle_time = 90
