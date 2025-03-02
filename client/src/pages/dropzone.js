@@ -5,10 +5,22 @@ import DocumentImg from '../icons/document.svg';
 import DownArrow from '../icons/down-arrow.svg';
 import Csv from '../icons/csv.svg';
 import Back from '../icons/back.svg';
+import Papa from 'papaparse';
+import loadingGif from '../icons/loading.gif';
+
+const LoadingGif = () => {
+  return (
+    <div className='absolute top-1/2 left-1/2 visible'>
+      <img src={loadingGif} alt='Loading...' />
+    </div>
+  )
+}
 
 const Dropzone = ({className}) => {
   const [files, setFiles] = useState([]);
   const [rejected, setRejected] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
   const navigate = useNavigate();
 
   const backBtnAction = () => {
@@ -18,6 +30,41 @@ const Dropzone = ({className}) => {
   const handleFormInput = () => {
     navigate('/inputForm');
   }
+
+  const processCSVData = async (acceptedFiles) => {
+    let parsedFiles = [];
+    for (let i = 0; i < acceptedFiles.length; i++) {
+      setLoading(true);
+        setIsVisible(!isVisible);
+      try {
+        const result = await new Promise((resolve, reject) => {
+          Papa.parse(acceptedFiles[i], {
+            complete: (result) => {
+              console.log('Parsed CSV result:', result);
+              resolve(result);
+            },
+            error: (error) => {
+              console.error('Error parsing CSV:', error);
+              reject(error);
+            },
+            header: true,
+            skipEmptyLines: true,
+          });
+        });
+
+        parsedFiles.push(result);
+      } catch (error) {
+        setLoading(false);
+        setIsVisible(!isVisible);
+        console.error('CSV parsing failed:', error);
+      }
+    }
+    setLoading(false);
+    setIsVisible(!isVisible);
+    navigate('/suggestions', { state: { csvData: parsedFiles } });
+  };
+  
+  
 
   const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
     
@@ -48,9 +95,9 @@ const Dropzone = ({className}) => {
   return (
     <div className='custom-file-box'>
       <div className='header'>
-        <button className='backBtn' onClick={backBtnAction}> <img src={Back} id='backImg'/> </button>
+        <button className='backBtn' onClick={backBtnAction}> <img src={Back} id='backImg'/></button>
         <div className='headerText'>Import your CSV Files</div>
-        <button id='processBtn'>Process</button>
+        <button id='processBtn' onClick={() => processCSVData(files)}>Process</button>
       </div>
       <form className='custom-file-label'>
         <div className='box' {...getRootProps({
@@ -98,6 +145,8 @@ const Dropzone = ({className}) => {
       </div>
     )}
     </ul>
+    {loading && <LoadingGif />}
+    
   </div>
   )
 }

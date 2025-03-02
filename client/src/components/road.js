@@ -18,8 +18,10 @@ const Card = () => {
     <StyledWrapper>
         <div className="card">
           <div className="shadow flex">
-            <button class="text-[#fff] flex-1 bg-[#4dae47]" onClick={handleCSV}>IMPORT CSV</button>
-            <button class="text-[#fff] flex-1 bg-[#fc7d7d]" onClick={handleFormInput}>CREATE CSV</button>
+            <button class="text-[#fff] flex-1 bg-[#4dae47] text-[35px]
+                          hover:bg-[#47a342] active:bg-[#3b8737]" onClick={handleCSV}>IMPORT CSV</button>
+            <button class="text-[#fff] flex-1 bg-[#fb6767]
+                          hover:bg-[#fc7d7d] active:bg-[#e97f7f] text-[35px]" onClick={handleFormInput}>CREATE CSV</button>
           </div>
         </div>
     </StyledWrapper>

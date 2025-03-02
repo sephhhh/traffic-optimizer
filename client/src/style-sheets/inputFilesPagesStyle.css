@@ -45,17 +45,17 @@
   cursor: pointer;
   font-size: 25px;
   border: transparent;
-  background-color: rgb(74, 140, 101);
+  background-color: #4dae47;
   color: #fff;
   border-radius: 5px;
 }
 
 #processBtn:hover {
-  background-color: rgb(48, 121, 78);
+  background-color: #47a342;
 }
 
 #processBtn:active {
-  background-color: rgb(17, 96, 50);
+  background-color: #3b8737;
 }
 
 .inputContainer {
