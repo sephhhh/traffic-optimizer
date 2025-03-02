@@ -7,6 +7,7 @@ import Csv from '../icons/csv.svg';
 import Back from '../icons/back.svg';
 import Papa from 'papaparse';
 import loadingGif from '../icons/loading.gif';
+import axios from "axios";
 
 const LoadingGif = () => {
   return (
@@ -31,11 +32,28 @@ const Dropzone = ({className}) => {
     navigate('/inputForm');
   }
 
+  const [output, setOutput] = useState(null);
+  const [error, setError] = useState(null);
+  const runPythonScript = async () => {
+    try {
+      setLoading(true);
+      setIsVisible(!isVisible);
+      const response = await axios.get('http://localhost:8000/run-script');
+      setOutput(response.data.output);
+      console.log(response);
+    } catch (error) {
+      setLoading(false);
+      setIsVisible(!isVisible);
+      console.error('Error running the Python script:', error);
+    }
+    setLoading(false);
+    setIsVisible(!isVisible);
+    navigate('/suggestions', { state: { csvData: output } });
+  };
+  
   const processCSVData = async (acceptedFiles) => {
     let parsedFiles = [];
     for (let i = 0; i < acceptedFiles.length; i++) {
-      setLoading(true);
-        setIsVisible(!isVisible);
       try {
         const result = await new Promise((resolve, reject) => {
           Papa.parse(acceptedFiles[i], {
@@ -59,6 +77,7 @@ const Dropzone = ({className}) => {
         console.error('CSV parsing failed:', error);
       }
     }
+
     setLoading(false);
     setIsVisible(!isVisible);
     navigate('/suggestions', { state: { csvData: parsedFiles } });
@@ -97,7 +116,8 @@ const Dropzone = ({className}) => {
       <div className='header'>
         <button className='backBtn' onClick={backBtnAction}> <img src={Back} id='backImg'/></button>
         <div className='headerText'>Import your CSV Files</div>
-        <button id='processBtn' onClick={() => processCSVData(files)}>Process</button>
+        {output && <p>{output}</p>}
+        <button id='processBtn' onClick={runPythonScript}>Process</button>
       </div>
       <form className='custom-file-label'>
         <div className='box' {...getRootProps({
